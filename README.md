@@ -68,10 +68,4 @@ La solución planteará:
 4. Resultados y visualizaciones
 5. Propuesta de automatización
 
-## Criterios de Evaluación
-- Calidad y claridad del código
-- Eficiencia en el procesamiento de datos
-- Precisión en los cálculos
-- Escalabilidad de la solución
-- Facilidad de mantenimiento
-- Documentación
+
