@@ -1,71 +1,136 @@
-# Prueba Técnica de Análisis de Datos
+# Ucademy Data Assessment
 
-## Descripción
-Este proyecto consiste en un análisis de datos de campañas comerciales utilizando archivos JSON como fuente de datos. El objetivo es procesar y analizar información sobre conversiones y leads para obtener insights valiosos sobre el rendimiento de las campañas.
+This project presents a complete data pipeline solution for Ucademy's technical assessment. It involves an ETL process using Python and MongoDB Atlas, exploratory data analysis (EDA), anomaly detection in lead conversion data, an interactive dashboard built with Streamlit, and a notebook for generating visual reports.
 
-## Objetivos del Análisis
-1. Calcular la tasa de conversión por fuente de campaña
-2. Determinar el porcentaje de leads que se convierten en cada campaña comercial
-3. Plantear una solución que permita actualizaciones recurrentes de los datos (no es necesario implementarla)
+---
 
-## Estructura del Proyecto
+## Project Structure
+
 ```
-data-assesment/
-├── data/           # Directorio para archivos JSON de entrada
-├── src/            # Código fuente
-└── README.md       # Este archivo
-```
-
-## Requisitos Técnicos
-- Python 3.8+
-- Pandas
-- Jupyter Notebook (opcional, para exploración de datos)
-- BBDD opcional, se puede usar SQLite, MongoDB, etc.
-
-## Instalación
-1. Clonar el repositorio:
-```bash
-git clone https://github.com/UcademyTech/data-assesment.git
-cd data-assesment
+.
+├── data/                    # Raw input files (campaigns.json, leads.json, inscriptions.json)
+├── output/                 # Processed files and exported visualizations
+├── src/
+│   ├── etl/
+│   │   ├── prepare_dataset.py     # ETL logic: parsing, merging, anomaly detection
+│   │   ├── upload_to_mongo.py     # Upload sanitized data to MongoDB
+│   │   └── test_mongo_connection.py
+│   ├── dashboard/
+│   │   └── app.py                 # Streamlit dashboard
+│   └── explore_dataset.ipynb     # EDA and automated report in Jupyter Notebook
+├── .env                         # MongoDB credentials (not included in repo)
+├── .gitignore
+├── requirements.txt
+└── README.md
 ```
 
-2. Crear un entorno virtual (recomendado):
-```bash
-python -m venv venv
-source venv/bin/activate  # En Unix/macOS
-# o
-.\venv\Scripts\activate  # En Windows
-```
+---
 
-3. Instalar dependencias:
-```bash
-pip install -r requirements.txt
-```
+## Features
 
-## Uso
-1. Colocar los archivos JSON de entrada en el directorio `data/`
-2. Ejecutar los scripts de análisis desde el directorio `src/`
+* Clean and merge raw JSON datasets
+* Parse European currency values
+* Compute conversion delays
+* Detect data anomalies (e.g., negative delays, missing inscriptions)
+* Upload to MongoDB Atlas
+* Explore insights using interactive filters and charts in a dashboard
+* Generate automated reports with metrics, visualizations, and interpretations
 
-## Estructura de la Solución
+---
 
-### 1. Conversión por Fuente de Campaña
-- Análisis de las tasas de conversión segmentadas por cada fuente de campaña
-- Métricas de rendimiento por canal
+## Setup Instructions
 
-### 2. Porcentaje de Conversión de Leads
-- Seguimiento de la evolución de leads a lo largo del embudo de conversión
-- Análisis porcentual de conversiones exitosas por campaña
+1. **Clone the repository**
 
-### 3. Actualización Recurrente
-La solución planteará:
-- Scripts automatizados para procesamiento periódico
-- Validación de datos de entrada
-- Almacenamiento de resultados históricos
+   ```bash
+   git clone https://github.com/MarksonMarcolino/ucademy-data-assessment.git
+   cd ucademy-data-assessment
+   ```
 
-## Entregables Esperados
-1. Código fuente comentado y documentado
-3. Documentación de la solución
-4. Resultados y visualizaciones
-5. Propuesta de automatización
+2. **Create and activate a virtual environment**
 
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
+3. **Install dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Configure environment variables**
+
+   Create a `.env` file in the root directory:
+
+   ```env
+   MONGO_URI=mongodb+srv://<username>:<password>@<cluster-url>/?retryWrites=true&w=majority
+   MONGO_DB=ucademy
+   MONGO_COLLECTION=leads_enriched
+   ```
+
+5. **Run the ETL pipeline**
+
+   ```bash
+   python src/etl/prepare_dataset.py
+   ```
+
+6. **Launch the Streamlit dashboard**
+
+   ```bash
+   streamlit run src/dashboard/app.py
+   ```
+
+7. **Open the EDA notebook**
+
+   ```bash
+   jupyter notebook src/explore_dataset.ipynb
+   ```
+
+---
+
+## Dashboard Features
+
+* **Campaign Filter**: Select one or more campaigns
+* **Date Range Filter**: Define lead creation date window
+* **Valid Conversions Filter**: Toggle to view all or only valid conversions
+* **Metrics Display**:
+
+  * Total Leads
+  * Valid Conversions
+  * Invalid Conversions
+* **Charts**:
+
+  * Conversions by Campaign
+  * Payment Distribution (Box Plot)
+  * Anomaly Types by Campaign
+  * Conversion Rate by Input Channel
+  * Conversion Rate by Campaign
+  * Funnel Chart of Conversion Evolution
+
+---
+
+## Proposed Automation
+
+To automate daily ETL and dashboard updates:
+
+* **Trigger**: Use `cron` or Apache Airflow to run `prepare_dataset.py`
+* **Database**: MongoDB Atlas stores cleaned and enriched data
+* **Frontend**: Streamlit automatically fetches updated data
+
+---
+
+## Deliverables
+
+* Source code (well-documented and modular)
+* Dashboard with interactive filters and charts
+* MongoDB-based backend
+* Automated Jupyter notebook report
+* Proposal for pipeline automation
+
+---
+
+## License
+
+This project is licensed for the purpose of the Ucademy technical assessment only.

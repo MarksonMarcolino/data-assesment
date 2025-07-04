@@ -1,0 +1,46 @@
+# Environment variables
+.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# VSCode settings
+.vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Output and log files
+output/
+logs/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+
+# Streamlit config cache
+.streamlit/
+
+# pytest cache
+.pytest_cache/
+
+# Local database/test files
+*.sqlite
+*.db
+
+# CSV or other intermediate export files (optional)
+*.csv
+*.parquet
